@@ -44,16 +44,11 @@ app.post("/students", (req, res) => {
     res.json({ message: "Student added successfully!" });
 });
 
-app.delete("/students/:id", (req, res) => {
-    const id = req.params.id;
-    const index = students.findIndex(student => student.id.toString() === id);
-    if (index !== -1) {
-        students.splice(index, 1);
-        res.json({ message: "Student deleted successfully!" });
-    } else {
-        res.status(404).json({ message: "Student not found!" });
-    }
-});
+app.delete('/students/:id', (req, res) => {
+    const id = parseInt(req.params.id, 10);  // Convert id to a number
+    students.splice(id - 1, 1);  // Adjust index to match array indexing
+    res.json({message: 'Student deleted successfully'});
+    });
 
 app.listen(port, () => {
     console.log(`Listening on port ${port}...`);
