@@ -1,5 +1,6 @@
 import express from "express";
 import cors from "cors";
+import sequelize from "./config/database.js";
 
 
 const app = express();
@@ -17,8 +18,22 @@ app.post("/", (req, res) => {
     res.send("post request recieved!");
 });
 
+//database
+async function startServer() {
+    try {
+        await sequelize.authenticate();
+        console.log("✅ Database connection established successfully.");
 
+        app.listen(port, () => {
+            console.log(`🚀 Server running on port ${port}`);
+        });
 
+    } catch (error: any) {
+        console.error("❌ Unable to connect to the database:", error.message);
+    }
+}
+
+startServer();
 //Student 
 
 interface Student {
